@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'com.haocxx.xxasm'
+apply plugin: 'com.haocxx.xxasm'
 
 android {
     compileSdkVersion 29
