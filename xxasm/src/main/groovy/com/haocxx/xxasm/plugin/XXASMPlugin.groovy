@@ -10,9 +10,7 @@ import org.gradle.api.Project
  */
 class XXASMPlugin implements Plugin<Project> {
     void apply(Project project) {
-        println("========================")
-        println("XXASMPlugin start")
-        println("========================")
+        println("============ do XXASMPlugin apply ============")
 
         //registerTransform
         def android = project.extensions.getByType(AppExtension)
