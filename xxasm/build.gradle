@@ -1,0 +1,30 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation 'com.android.tools.build:gradle:3.5.0'
+    implementation 'com.android.tools.build:gradle-api:3.5.0'
+}
+
+repositories {
+    google()
+    jcenter()
+}
+
+group = 'com.haocxx'
+version = '1.0.0'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            // push to remote
+//            repository(url: "http://www.xxx.com/repos") {
+//                authentication(userName: "admin", password: "admin")
+//            }
+            // push to local
+            repository(url: new File(rootProject.projectDir, "buildCache/plugin").toURI())
+        }
+    }
+}

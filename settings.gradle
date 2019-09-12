@@ -1,0 +1,2 @@
+include ':app', ':xxasm'
+rootProject.name='XXASM'
