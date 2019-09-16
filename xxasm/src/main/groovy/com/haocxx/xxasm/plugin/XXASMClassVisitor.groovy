@@ -14,7 +14,7 @@ class XXASMClassVisitor extends ClassVisitor {
     private String mClassName
 
     XXASMClassVisitor(ClassVisitor cv) {
-        super(Opcodes.ASM5, cv)
+        super(Opcodes.ASM4, cv)
     }
 
     @Override
@@ -28,15 +28,19 @@ class XXASMClassVisitor extends ClassVisitor {
 
     @Override
     MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-        if (Opcodes.ACC_PRIVATE == access) {
+        if (Opcodes.ACC_PROTECTED == access) {
             System.out.println("XXASMClassVisitor : visit private Method ：" + name)
-            return super.visitMethod(0, name, desc, signature, exceptions)
+            return super.visitMethod(Opcodes.ACC_PUBLIC, name, desc, signature, exceptions)
         }
         return super.visitMethod(access, name, desc, signature, exceptions)
     }
 
     @Override
     FieldVisitor visitField(int access, String name, String desc, String signature, Object value) {
+        if (Opcodes.ACC_PROTECTED == access) {
+            System.out.println("XXASMClassVisitor : visit private Field ：" + name)
+            return super.visitField(Opcodes.ACC_PUBLIC, name, desc, signature, value)
+        }
         if (Opcodes.ACC_PRIVATE == access) {
             System.out.println("XXASMClassVisitor : visit private Field ：" + name)
             return super.visitField(0, name, desc, signature, value)

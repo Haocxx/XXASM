@@ -78,7 +78,7 @@ class XXASMTransformHandler {
                 InputStream inputStream = jarFile.getInputStream(jarEntry)
                 //do class asm
                 if (entryName.endsWith(".class") && !entryName.startsWith("R\$")
-                        && !"R.class".equals(entryName) && !"BuildConfig.class".equals(entryName)) {
+                        && "R.class" != entryName && "BuildConfig.class" != entryName) {
                     println '----------- deal with "jar" class file <' + entryName + '> -----------'
                     jarOutputStream.putNextEntry(zipEntry)
                     ClassReader classReader = new ClassReader(IOUtils.toByteArray(inputStream))
