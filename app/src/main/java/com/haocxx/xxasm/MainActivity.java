@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Haocxx", "test4");
     }
 
-    void test2() {
+    final void test2() {
         Log.d("Haocxx", new Integer(3).toString());
         Log.d("Haocxx", "test2");
         Log.d("Haocxx", "test3");
