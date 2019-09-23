@@ -3,6 +3,7 @@ package com.haocxx.xxasm;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,14 +20,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         test();
-        test2();
+        test2(a);
         new A();
         new B();
+        new Handler().post(() -> {
+            test();
+            test2(a);
+        });
         new Runnable() {
             @Override
             public void run() {
                 test();
-                test2();
+                test2(a);
+
             }
         };
         b = a;
@@ -39,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Haocxx", "test4");
     }
 
-    final void test2() {
+    final void test2(int a) {
         Log.d("Haocxx", new Integer(3).toString());
         Log.d("Haocxx", "test2");
         Log.d("Haocxx", "test3");

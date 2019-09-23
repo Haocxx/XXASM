@@ -1,5 +1,6 @@
 package com.haocxx.xxasm.plugin
 
+import com.haocxx.xxasm.plugin.traversal.XXASMTraversalManager
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.FieldVisitor
 import org.objectweb.asm.MethodVisitor
@@ -42,11 +43,12 @@ class XXASMClassVisitor extends ClassVisitor {
             access -= Opcodes.ACC_PROTECTED
             access += Opcodes.ACC_PUBLIC
         }
-        if ((Opcodes.ACC_PRIVATE & access) == Opcodes.ACC_PRIVATE && "<init>" != name) {
-            access -= Opcodes.ACC_PRIVATE
+        if ((Opcodes.ACC_PRIVATE & access) == Opcodes.ACC_PRIVATE) {
+            if (XXASMTraversalManager._instance.sPrivateMethodSet.contains(new XXASMTraversalManager.MethodInfo(mClassName, name))) {
+                access -= Opcodes.ACC_PRIVATE
+            }
         }
-        if ((Opcodes.ACC_SYNTHETIC & access) == Opcodes.ACC_SYNTHETIC && mClassName == "com/haocxx/xxasm/MainActivity") {
-            println("XXASMClassVisitor : visit SYNTHETIC Method ：" + name)
+        if ((Opcodes.ACC_SYNTHETIC & access) == Opcodes.ACC_SYNTHETIC) {
             //return null
         }
         result = super.visitMethod(access, name, desc, signature, exceptions)

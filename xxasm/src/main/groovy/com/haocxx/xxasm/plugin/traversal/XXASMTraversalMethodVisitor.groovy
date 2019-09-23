@@ -8,16 +8,25 @@ import org.objectweb.asm.Opcodes
  * on 2019-09-16
  */
 class XXASMTraversalMethodVisitor extends MethodVisitor {
+    String className
+    String methodName
 
-    XXASMTraversalMethodVisitor(MethodVisitor mv) {
+    XXASMTraversalMethodVisitor(String className, String methodName, MethodVisitor mv) {
         super(Opcodes.ASM5, mv)
+        this.className = className
+        this.methodName = methodName
     }
 
     @Override
     void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
-//        if ("android/util/Log" == owner && name == "d") {
-//            println("XXASMMethodVisitor visitMethodInsn: remove " + owner + " " + name + " " + desc)
-//        }
+        println("XXASMTraversalMethodVisitor visitMethodInsn: " + owner + " " + name + " " + desc)
         super.visitMethodInsn(opcode, owner, name, desc, itf)
+        XXASMTraversalManager._instance.sSyntheticMethodSet.add(new XXASMTraversalManager.MethodInfo(className, methodName))
+    }
+
+    @Override
+    void visitFieldInsn(int opcode, String owner, String name, String desc) {
+        super.visitFieldInsn(opcode, owner, name, desc)
+        println("XXASMTraversalMethodVisitor visitFieldInsn: " + opcode + owner + name)
     }
 }

@@ -4,6 +4,7 @@ enum XXASMTraversalManager {
     _instance
 
     HashSet<MethodInfo> sPrivateMethodSet = new HashSet<>()
+    HashSet<MethodInfo> sSyntheticMethodSet = new HashSet<>()
 
     static class MethodInfo {
         String className
@@ -13,10 +14,6 @@ enum XXASMTraversalManager {
             this.className = className
             this.methodName = methodName
         }
-
-//        boolean equals(String className, String methodName) {
-//            return this.className == className && this.methodName == methodName
-//        }
 
         @Override
         boolean equals(Object o) {

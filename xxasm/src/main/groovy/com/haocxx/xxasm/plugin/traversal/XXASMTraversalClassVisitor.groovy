@@ -29,10 +29,14 @@ class XXASMTraversalClassVisitor extends ClassVisitor {
     MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
         MethodVisitor result
         result = super.visitMethod(access, name, desc, signature, exceptions)
-        if ((Opcodes.ACC_PRIVATE & access) == Opcodes.ACC_PRIVATE) {
+        if ((Opcodes.ACC_PRIVATE & access) == Opcodes.ACC_PRIVATE && "<init>" != name && !name.startsWith("lambda\$")) {
             XXASMTraversalManager._instance.sPrivateMethodSet.add(new XXASMTraversalManager.MethodInfo(mClassName, name))
         }
-        return result == null ? null : new XXASMTraversalMethodVisitor(result)
+        if ((Opcodes.ACC_SYNTHETIC & access) == Opcodes.ACC_SYNTHETIC && name.startsWith("access\$")) {
+            println("XXASMTraversalClassVisitor " + mClassName + " " + name)
+            result = result == null ? null : new XXASMTraversalMethodVisitor(mClassName, name, result)
+        }
+        return result
     }
 
     @Override

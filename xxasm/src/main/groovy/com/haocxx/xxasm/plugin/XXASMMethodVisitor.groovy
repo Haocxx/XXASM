@@ -16,11 +16,9 @@ class XXASMMethodVisitor extends MethodVisitor {
 
     @Override
     void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
-        //if (owner == "com/haocxx/xxasm/MainActivity") {
         if (XXASMTraversalManager._instance.sPrivateMethodSet.contains(new XXASMTraversalManager.MethodInfo(owner, name))) {
-            if (opcode == Opcodes.INVOKESPECIAL && "<init>" != name) {
+            if (opcode == Opcodes.INVOKESPECIAL) {
                 opcode = Opcodes.INVOKEVIRTUAL
-                println("XXASMMethodVisitor visit private MethodInsn: " + owner + " " + name + " " + opcode)
             }
         }
         super.visitMethodInsn(opcode, owner, name, desc, itf)
