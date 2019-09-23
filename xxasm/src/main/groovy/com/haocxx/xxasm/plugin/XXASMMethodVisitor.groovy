@@ -1,5 +1,6 @@
 package com.haocxx.xxasm.plugin
 
+import com.haocxx.xxasm.plugin.traversal.XXASMTraversalManager
 import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
 
@@ -15,9 +16,10 @@ class XXASMMethodVisitor extends MethodVisitor {
 
     @Override
     void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
-//        if ("android/util/Log" == owner && name == "d") {
-//            println("XXASMMethodVisitor visitMethodInsn: remove " + owner + " " + name + " " + desc)
-//        }
+        if (XXASMTraversalManager._instance.sPrivateMethodSet.contains(new XXASMTraversalManager.MethodInfo(owner, name))) {
+            opcode = Opcodes.INVOKEVIRTUAL
+            println("XXASMMethodVisitor visit private MethodInsn: " + owner + " " + name)
+        }
         super.visitMethodInsn(opcode, owner, name, desc, itf)
     }
 }

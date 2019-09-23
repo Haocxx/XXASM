@@ -22,6 +22,12 @@ public class MainActivity extends AppCompatActivity {
         test2();
         new A();
         new B();
+        new Runnable() {
+            @Override
+            public void run() {
+                test2();
+            }
+        };
         b = a;
     }
 
