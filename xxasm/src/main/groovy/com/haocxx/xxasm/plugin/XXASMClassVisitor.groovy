@@ -42,12 +42,12 @@ class XXASMClassVisitor extends ClassVisitor {
             access -= Opcodes.ACC_PROTECTED
             access += Opcodes.ACC_PUBLIC
         }
-        if ((Opcodes.ACC_PRIVATE & access) == Opcodes.ACC_PRIVATE) {
+        if ((Opcodes.ACC_PRIVATE & access) == Opcodes.ACC_PRIVATE && "<init>" != name) {
             access -= Opcodes.ACC_PRIVATE
         }
-        if ((Opcodes.ACC_SYNTHETIC & access) == Opcodes.ACC_SYNTHETIC) {
-            print("XXASMClassVisitor : visit SYNTHETIC Method ：" + name)
-            return null
+        if ((Opcodes.ACC_SYNTHETIC & access) == Opcodes.ACC_SYNTHETIC && mClassName == "com/haocxx/xxasm/MainActivity") {
+            println("XXASMClassVisitor : visit SYNTHETIC Method ：" + name)
+            //return null
         }
         result = super.visitMethod(access, name, desc, signature, exceptions)
         return result == null ? null : new XXASMMethodVisitor(result)

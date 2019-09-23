@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         new Runnable() {
             @Override
             public void run() {
+                test();
                 test2();
             }
         };
