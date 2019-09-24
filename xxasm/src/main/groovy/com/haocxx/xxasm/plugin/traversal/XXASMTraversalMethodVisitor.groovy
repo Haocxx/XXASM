@@ -19,14 +19,21 @@ class XXASMTraversalMethodVisitor extends MethodVisitor {
 
     @Override
     void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
-        println("XXASMTraversalMethodVisitor visitMethodInsn: " + owner + " " + name + " " + desc)
+        if (opcode == Opcodes.INVOKESPECIAL) {
+            XXASMTraversalManager.MethodInfo pre = new XXASMTraversalManager.MethodInfo(className, methodName)
+            XXASMTraversalManager.MethodInfo after = new XXASMTraversalManager.MethodInfo(owner, name)
+            XXASMTraversalManager._instance.sPrivateAccessMethodMap.put(pre, after)
+        }
         super.visitMethodInsn(opcode, owner, name, desc, itf)
-        XXASMTraversalManager._instance.sSyntheticMethodSet.add(new XXASMTraversalManager.MethodInfo(className, methodName))
     }
 
     @Override
     void visitFieldInsn(int opcode, String owner, String name, String desc) {
+        if (opcode == Opcodes.GETFIELD) {
+            XXASMTraversalManager.MethodInfo pre = new XXASMTraversalManager.MethodInfo(className, methodName)
+            XXASMTraversalManager.FieldInfo after = new XXASMTraversalManager.FieldInfo(owner, name)
+            XXASMTraversalManager._instance.sPrivateAccessFieldMap.put(pre, after)
+        }
         super.visitFieldInsn(opcode, owner, name, desc)
-        println("XXASMTraversalMethodVisitor visitFieldInsn: " + opcode + owner + name)
     }
 }

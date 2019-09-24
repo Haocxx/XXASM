@@ -49,7 +49,9 @@ class XXASMClassVisitor extends ClassVisitor {
             }
         }
         if ((Opcodes.ACC_SYNTHETIC & access) == Opcodes.ACC_SYNTHETIC) {
-            //return null
+            if (XXASMTraversalManager._instance.sPrivateAccessMethodMap.get(new XXASMTraversalManager.MethodInfo(mClassName, name)) != null) {
+                return null
+            }
         }
         result = super.visitMethod(access, name, desc, signature, exceptions)
         return result == null ? null : new XXASMMethodVisitor(result)

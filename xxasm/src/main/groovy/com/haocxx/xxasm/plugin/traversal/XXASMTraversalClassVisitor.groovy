@@ -33,7 +33,6 @@ class XXASMTraversalClassVisitor extends ClassVisitor {
             XXASMTraversalManager._instance.sPrivateMethodSet.add(new XXASMTraversalManager.MethodInfo(mClassName, name))
         }
         if ((Opcodes.ACC_SYNTHETIC & access) == Opcodes.ACC_SYNTHETIC && name.startsWith("access\$")) {
-            println("XXASMTraversalClassVisitor " + mClassName + " " + name)
             result = result == null ? null : new XXASMTraversalMethodVisitor(mClassName, name, result)
         }
         return result

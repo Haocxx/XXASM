@@ -32,7 +32,6 @@ class XXASMTraversalTransformHandler {
                 def name = file.name
                 if (name.endsWith(".class") && !name.startsWith("R\$")
                         && "R.class" != name && "BuildConfig.class" != name) {
-                    println '----------- deal with "class" file <' + name + '> -----------'
                     ClassReader classReader = new ClassReader(file.bytes)
                     ClassWriter classWriter = new ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)
                     ClassVisitor cv = new XXASMTraversalClassVisitor(classWriter)
@@ -79,7 +78,6 @@ class XXASMTraversalTransformHandler {
                 //do class asm
                 if (entryName.endsWith(".class") && !entryName.startsWith("R\$")
                         && "R.class" != entryName && "BuildConfig.class" != entryName) {
-                    println '----------- deal with "jar" class file <' + entryName + '> -----------'
                     jarOutputStream.putNextEntry(zipEntry)
                     ClassReader classReader = new ClassReader(IOUtils.toByteArray(inputStream))
                     ClassWriter classWriter = new ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)
