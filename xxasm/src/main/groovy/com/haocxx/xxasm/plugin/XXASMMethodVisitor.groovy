@@ -20,7 +20,19 @@ class XXASMMethodVisitor extends MethodVisitor {
             XXASMTraversalManager.MethodInfo key = new XXASMTraversalManager.MethodInfo(owner, name)
             XXASMTraversalManager.MethodInfo value = XXASMTraversalManager._instance.sPrivateAccessMethodMap.get(key)
             if (value != null) {
-                super.visitMethodInsn(Opcodes.INVOKESTATIC, value.className, value.methodName, desc, itf)
+                int blockerPos = 0
+                for (int i = 0; i < desc.length(); i++) {
+                    if (desc[i] == ';') {
+                        blockerPos = i
+                        break
+                    }
+                }
+                StringBuffer descTrunk = new StringBuffer("(")
+                for (int i = blockerPos + 1; i < desc.length(); i++) {
+                    descTrunk.append(desc[i])
+                }
+                desc = descTrunk.toString()
+                super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, value.className, value.methodName, desc, itf)
                 return
             }
         }
