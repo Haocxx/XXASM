@@ -1,5 +1,6 @@
 package com.haocxx.xxasm.plugin
 
+import com.haocxx.xxasm.plugin.manager.LogPrintManager
 import com.haocxx.xxasm.plugin.traversal.XXASMTraversalManager
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.FieldVisitor
@@ -37,19 +38,23 @@ class XXASMClassVisitor extends ClassVisitor {
     MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
         MethodVisitor result
         if ((Opcodes.ACC_FINAL & access) == Opcodes.ACC_FINAL) {
+            LogPrintManager.getInstance().removeFinalMethodSignLogPrinter.printLog(mClassName.replace('/', '.') + "::" + name)
             access -= Opcodes.ACC_FINAL
         }
         if ((Opcodes.ACC_PROTECTED & access) == Opcodes.ACC_PROTECTED) {
+            LogPrintManager.getInstance().replaceProtectedMethodSignLogPrinter.printLog(mClassName.replace('/', '.') + "::" + name)
             access -= Opcodes.ACC_PROTECTED
             access += Opcodes.ACC_PUBLIC
         }
         if ((Opcodes.ACC_PRIVATE & access) == Opcodes.ACC_PRIVATE) {
             if (XXASMTraversalManager._instance.sPrivateMethodSet.contains(new XXASMTraversalManager.MethodInfo(mClassName, name))) {
+                LogPrintManager.getInstance().removePrivateMethodSignLogPrinter.printLog(mClassName.replace('/', '.') + "::" + name)
                 access -= Opcodes.ACC_PRIVATE
             }
         }
         if ((Opcodes.ACC_SYNTHETIC & access) == Opcodes.ACC_SYNTHETIC) {
             if (XXASMTraversalManager._instance.sPrivateAccessMethodMap.get(new XXASMTraversalManager.MethodInfo(mClassName, name)) != null) {
+                LogPrintManager.getInstance().removedSyntheticAccessMethodLogPrinter.printLog(mClassName.replace('/', '.') + "::" + name)
                 return null
             }
         }
@@ -60,13 +65,16 @@ class XXASMClassVisitor extends ClassVisitor {
     @Override
     FieldVisitor visitField(int access, String name, String desc, String signature, Object value) {
         if ((Opcodes.ACC_FINAL & access) == Opcodes.ACC_FINAL) {
+            LogPrintManager.getInstance().removeFinalFieldSignLogPrinter.printLog(mClassName.replace('/', '.') + "::" + name)
             access -= Opcodes.ACC_FINAL
         }
         if ((Opcodes.ACC_PROTECTED & access) == Opcodes.ACC_PROTECTED) {
+            LogPrintManager.getInstance().replaceProtectedFieldSignLogPrinter.printLog(mClassName.replace('/', '.') + "::" + name)
             access -= Opcodes.ACC_PROTECTED
             access += Opcodes.ACC_PUBLIC
         }
         if ((Opcodes.ACC_PRIVATE & access) == Opcodes.ACC_PRIVATE) {
+            LogPrintManager.getInstance().removePrivateFieldSignLogPrinter.printLog(mClassName.replace('/', '.') + "::" + name)
             access -= Opcodes.ACC_PRIVATE
         }
         return super.visitField(access, name, desc, signature, value)

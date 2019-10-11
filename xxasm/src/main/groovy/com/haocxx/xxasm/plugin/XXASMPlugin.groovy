@@ -1,6 +1,8 @@
 package com.haocxx.xxasm.plugin
 
 import com.android.build.gradle.AppExtension
+import com.haocxx.xxasm.plugin.manager.BuildPropertyManager
+import com.haocxx.xxasm.plugin.manager.LogPrintManager
 import com.haocxx.xxasm.plugin.traversal.XXASMTraversalTransform
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -17,5 +19,8 @@ class XXASMPlugin implements Plugin<Project> {
         def android = project.extensions.getByType(AppExtension)
         android.registerTransform(new XXASMTraversalTransform())
         android.registerTransform(new XXASMTransform())
+        BuildPropertyManager.init()
+        BuildPropertyManager.getInstance().setBuildDir(project.getBuildDir().getPath())
+        LogPrintManager.init()
     }
 }
