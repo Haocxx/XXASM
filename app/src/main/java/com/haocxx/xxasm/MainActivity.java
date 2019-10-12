@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    void test2(int a, int b) {
+    private void test2(int a, int b) {
 //        Log.d("Haocxx", new Integer(3).toString());
 //        Log.d("Haocxx", "test2");
 //        Log.d("Haocxx", "test3");
