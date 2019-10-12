@@ -51,6 +51,9 @@ class LogPrintManager {
             if (file.exists()) {
                 file.delete()
             }
+            if (file.getParentFile() != null) {
+                file.getParentFile().mkdirs()
+            }
             file.createNewFile()
         }
 
