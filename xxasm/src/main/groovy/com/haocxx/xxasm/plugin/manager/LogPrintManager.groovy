@@ -54,15 +54,21 @@ class LogPrintManager {
             if (file.getParentFile() != null) {
                 file.getParentFile().mkdirs()
             }
-            file.createNewFile()
+            if (!file.createNewFile()) {
+                println("XXASM LogPrinter: create file failed. " + logFilePath)
+            }
         }
 
         synchronized void printLog(String line) {
-            FileWriter fw = new FileWriter(new File(logFilePath), true)
-            BufferedWriter bw = new BufferedWriter(fw)
-            bw.write(line + "\n")
-            bw.close()
-            fw.close()
+            try {
+                FileWriter fw = new FileWriter(new File(logFilePath), true)
+                BufferedWriter bw = new BufferedWriter(fw)
+                bw.write(line + "\n")
+                bw.close()
+                fw.close()
+            } catch (Exception e) {
+                e.printStackTrace()
+            }
         }
     }
 }
