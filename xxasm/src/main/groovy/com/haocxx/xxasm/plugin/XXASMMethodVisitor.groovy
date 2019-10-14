@@ -19,7 +19,7 @@ class XXASMMethodVisitor extends MethodVisitor {
         if (opcode == Opcodes.INVOKESTATIC && name.startsWith("access\$")) {
             XXASMTraversalManager.MethodInfo key = new XXASMTraversalManager.MethodInfo(owner, name)
             XXASMTraversalManager.MethodInfo value = XXASMTraversalManager._instance.sPrivateAccessMethodMap.get(key)
-            if (value != null) {
+            if (value != null && XXASMTraversalManager._instance.sPrivateMethodSet.contains(value)) {
                 int blockerPos = 0
                 for (int i = 0; i < desc.length(); i++) {
                     if (desc[i] == ';') {
@@ -49,10 +49,10 @@ class XXASMMethodVisitor extends MethodVisitor {
         if (opcode == Opcodes.GETFIELD && name.startsWith("access\$")) {
             XXASMTraversalManager.MethodInfo key = new XXASMTraversalManager.MethodInfo(owner, name)
             XXASMTraversalManager.FieldInfo value = XXASMTraversalManager._instance.sPrivateAccessFieldMap.get(key)
-            if (value != null) {
-                super.visitFieldInsn(opcode, value.className, value.fieldName, desc)
-                return
-            }
+//            if (value != null) {
+//                super.visitFieldInsn(opcode, value.className, value.fieldName, desc)
+//                return
+//            }
         }
         super.visitFieldInsn(opcode, owner, name, desc)
     }
