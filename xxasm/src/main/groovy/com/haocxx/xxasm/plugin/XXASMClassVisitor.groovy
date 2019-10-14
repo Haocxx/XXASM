@@ -53,7 +53,8 @@ class XXASMClassVisitor extends ClassVisitor {
             }
         }
         if ((Opcodes.ACC_SYNTHETIC & access) == Opcodes.ACC_SYNTHETIC) {
-            if (XXASMTraversalManager._instance.sPrivateAccessMethodMap.get(new XXASMTraversalManager.MethodInfo(mClassName, name)) != null) {
+            XXASMTraversalManager.MethodInfo methodInfo = XXASMTraversalManager._instance.sPrivateAccessMethodMap.get(new XXASMTraversalManager.MethodInfo(mClassName, name))
+            if (methodInfo != null && XXASMTraversalManager._instance.sPrivateMethodSet.contains(methodInfo)) {
                 LogPrintManager.getInstance().removedSyntheticAccessMethodLogPrinter.printLog(mClassName.replace('/', '.') + "::" + name)
                 return null
             }
