@@ -67,7 +67,6 @@ class LogPrintManager {
                 bw.close()
                 fw.close()
             } catch (Exception e) {
-                e.printStackTrace()
             }
         }
     }

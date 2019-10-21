@@ -1,5 +1,9 @@
 package com.haocxx.xxasm.plugin.traversal
 
+/**
+ * Created by Haocxx
+ * on 2019-9-23
+ */
 enum XXASMTraversalManager {
     _instance
 

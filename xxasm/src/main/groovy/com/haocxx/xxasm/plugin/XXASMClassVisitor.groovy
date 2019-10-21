@@ -1,5 +1,6 @@
 package com.haocxx.xxasm.plugin
 
+import com.haocxx.xxasm.plugin.manager.IgnoreManager
 import com.haocxx.xxasm.plugin.manager.LogPrintManager
 import com.haocxx.xxasm.plugin.traversal.XXASMTraversalManager
 import org.objectweb.asm.ClassVisitor
@@ -24,6 +25,12 @@ class XXASMClassVisitor extends ClassVisitor {
                       String superName, String[] interfaces) {
         // save current visit class name
         this.mClassName = name
+
+        if (IgnoreManager.getInstance().isIgnoreClass(name)) {
+            super.visit(version, access, name, signature, superName, interfaces)
+            return
+        }
+
         if ((Opcodes.ACC_FINAL & access) == Opcodes.ACC_FINAL) {
             access -= Opcodes.ACC_FINAL
         }
@@ -36,6 +43,10 @@ class XXASMClassVisitor extends ClassVisitor {
 
     @Override
     MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
+        if (IgnoreManager.getInstance().isIgnoreClass(mClassName)) {
+            return super.visitMethod(access, name, desc, signature, exceptions)
+        }
+
         MethodVisitor result
         if ((Opcodes.ACC_FINAL & access) == Opcodes.ACC_FINAL) {
             LogPrintManager.getInstance().removeFinalMethodSignLogPrinter.printLog(mClassName.replace('/', '.') + "::" + name)
@@ -65,6 +76,10 @@ class XXASMClassVisitor extends ClassVisitor {
 
     @Override
     FieldVisitor visitField(int access, String name, String desc, String signature, Object value) {
+        if (IgnoreManager.getInstance().isIgnoreClass(mClassName)) {
+            return super.visitField(access, name, desc, signature, value)
+        }
+
         if ((Opcodes.ACC_FINAL & access) == Opcodes.ACC_FINAL) {
             LogPrintManager.getInstance().removeFinalFieldSignLogPrinter.printLog(mClassName.replace('/', '.') + "::" + name)
             access -= Opcodes.ACC_FINAL
