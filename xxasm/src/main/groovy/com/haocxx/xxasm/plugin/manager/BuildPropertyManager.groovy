@@ -29,9 +29,20 @@ class BuildPropertyManager {
 
     void setConfig(XXASMConfig config) {
         mConfig = config
+        println("BuildPropertyManager: getIgnoreListPath : " + getIgnoreListPath())
+        println("BuildPropertyManager: isRemoveNonStaticPrivateMethodSignEnable : " + isRemoveNonStaticPrivateMethodSignEnable())
+        println("BuildPropertyManager: isRemoveNonStaticPrivateFieldSignEnable : " + isRemoveNonStaticPrivateFieldSignEnable())
     }
 
     String getIgnoreListPath() {
         return mConfig != null ? mConfig.ignoreListPath : ""
+    }
+
+    boolean isRemoveNonStaticPrivateMethodSignEnable() {
+        return mConfig != null ? mConfig.enableRemoveNonStaticPrivateMethodSign : true
+    }
+
+    boolean isRemoveNonStaticPrivateFieldSignEnable() {
+        return mConfig != null ? mConfig.enableRemoveNonStaticPrivateFieldSign : true
     }
 }

@@ -70,6 +70,13 @@ class XXASMClassVisitor extends ClassVisitor {
                 return null
             }
         }
+        if ((Opcodes.ACC_SYNTHETIC & access) == Opcodes.ACC_SYNTHETIC) {
+            XXASMTraversalManager.FieldInfo fieldInfo = XXASMTraversalManager._instance.sPrivateAccessFieldMap.get(new XXASMTraversalManager.MethodInfo(mClassName, name))
+            if (fieldInfo != null && XXASMTraversalManager._instance.sPrivateFieldSet.contains(fieldInfo)) {
+                LogPrintManager.getInstance().removedSyntheticAccessFieldLogPrinter.printLog(mClassName.replace('/', '.') + "::" + name)
+                return null
+            }
+        }
         result = super.visitMethod(access, name, desc, signature, exceptions)
         return result == null ? null : new XXASMMethodVisitor(result)
     }

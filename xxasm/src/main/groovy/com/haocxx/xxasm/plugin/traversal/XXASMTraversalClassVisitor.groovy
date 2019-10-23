@@ -1,5 +1,6 @@
 package com.haocxx.xxasm.plugin.traversal
 
+import com.haocxx.xxasm.plugin.manager.BuildPropertyManager
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.FieldVisitor
 import org.objectweb.asm.MethodVisitor
@@ -29,8 +30,10 @@ class XXASMTraversalClassVisitor extends ClassVisitor {
     MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
         MethodVisitor result
         result = super.visitMethod(access, name, desc, signature, exceptions)
-        if (access == Opcodes.ACC_PRIVATE && "<init>" != name && !name.startsWith("lambda\$")) {
-            XXASMTraversalManager._instance.sPrivateMethodSet.add(new XXASMTraversalManager.MethodInfo(mClassName, name))
+        if (BuildPropertyManager.getInstance().isRemoveNonStaticPrivateMethodSignEnable()) {
+            if (access == Opcodes.ACC_PRIVATE && "<init>" != name && !name.startsWith("lambda\$")) {
+                XXASMTraversalManager._instance.sPrivateMethodSet.add(new XXASMTraversalManager.MethodInfo(mClassName, name))
+            }
         }
         if ((Opcodes.ACC_SYNTHETIC & access) == Opcodes.ACC_SYNTHETIC && name.startsWith("access\$")) {
             result = result == null ? null : new XXASMTraversalMethodVisitor(mClassName, name, result)
@@ -40,6 +43,12 @@ class XXASMTraversalClassVisitor extends ClassVisitor {
 
     @Override
     FieldVisitor visitField(int access, String name, String desc, String signature, Object value) {
-        return super.visitField(access, name, desc, signature, value)
+        FieldVisitor result = super.visitField(access, name, desc, signature, value)
+        if (BuildPropertyManager.getInstance().isRemoveNonStaticPrivateFieldSignEnable()) {
+            if (access == Opcodes.ACC_PRIVATE) {
+                XXASMTraversalManager._instance.sPrivateFieldSet.add(new XXASMTraversalManager.FieldInfo(mClassName, name))
+            }
+        }
+        return result
     }
 }

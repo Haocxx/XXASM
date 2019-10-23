@@ -10,6 +10,7 @@ class LogPrintManager {
     private String mBuildDir
 
     LogPrinter removedSyntheticAccessMethodLogPrinter
+    LogPrinter removedSyntheticAccessFieldLogPrinter
     LogPrinter removePrivateMethodSignLogPrinter
     LogPrinter removeFinalMethodSignLogPrinter
     LogPrinter replaceProtectedMethodSignLogPrinter
@@ -29,6 +30,7 @@ class LogPrintManager {
     LogPrintManager() {
         setBuildDir(BuildPropertyManager.getInstance().getBuildDir())
         removedSyntheticAccessMethodLogPrinter = new LogPrinter(mBuildDir + SUB_PATH + "/RemovedSyntheticAccessMethod.txt")
+        removedSyntheticAccessFieldLogPrinter = new LogPrinter(mBuildDir + SUB_PATH + "/RemovedSyntheticAccessFieldLog.txt")
         removePrivateMethodSignLogPrinter = new LogPrinter(mBuildDir + SUB_PATH + "/RemovePrivateMethodSign.txt")
         removeFinalMethodSignLogPrinter = new LogPrinter(mBuildDir + SUB_PATH + "/RemoveFinalMethodSign.txt")
         replaceProtectedMethodSignLogPrinter = new LogPrinter(mBuildDir + SUB_PATH + "/ReplaceProtectedMethodSign.txt")
