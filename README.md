@@ -3,6 +3,13 @@
 
 ## Feature:
 ### 1.移除所有非静态方法的private可见性修饰
+#### Java代码：
+```Java
+private void test(int a, int b) {
+
+}
+```
+#### 反编译的字节码处理前后对比：
 before:
 ```decompiled-class
 
@@ -43,6 +50,11 @@ return-void
 
 ```
 ### 2.移除所有非静态全局变量的private可见性修饰
+#### Java代码：
+```Java
+private BaseActivity a = new BaseActivity();
+```
+#### 反编译的字节码处理前后对比：
 before:
 ```decompiled-class
 
@@ -67,6 +79,13 @@ after:
 
 ```
 ### 3.移除所有方法和全局变量的final修饰
+#### Java代码：
+```Java
+final int getTAG() {
+    return TAG;
+}
+```
+#### 反编译的字节码处理前后对比：
 before:
 ```decompiled-class
 
@@ -94,6 +113,13 @@ return v0
 
 ```
 ### 4.将所有protected方法和全局变量的可见性替换为public
+#### Java代码：
+```Java
+protected BaseActivity get() {
+    return new BaseActivity();
+}
+```
+#### 反编译的字节码处理前后对比：
 before:
 ```decompiled-class
 
