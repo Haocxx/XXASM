@@ -6,9 +6,9 @@
 在app的build.gradle中，XXASM支持如下配置：
 ```gradle
 xxasm {
-ignoreListPath = "$rootDir/property/xxasm/ignore.txt"
-enableRemoveNonStaticPrivateMethodSign = true
-enableRemoveNonStaticPrivateFieldSign = true
+    ignoreListPath = "$rootDir/property/xxasm/ignore.txt"
+    enableRemoveNonStaticPrivateMethodSign = true
+    enableRemoveNonStaticPrivateFieldSign = true
 }
 ```
 ### ignoreListPath:
