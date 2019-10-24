@@ -25,6 +25,24 @@ com.iqiyi.Example //类“com.iqiyi.Example”不做处理
 ### enableRemoveNonStaticPrivateFieldSign:
 是否启用处理非静态private全局变量（Feature 2）的开关。true为开，false为关。默认为开。
 
+## Log Output:
+XXASM的处理会将如下Log文件输出到build/intermediates/xxasm下
+### 1.RemovedSyntheticAccessMethod.txt
+被删除的因private方法而生成的access$方法清单
+### 2.RemovedSyntheticAccessFieldLog
+被删除的因private变量而生成的access$方法清单
+### 3.RemovePrivateMethodSign
+被移除private可见性修饰符的方法清单
+### 4.RemoveFinalMethodSign
+被移除final可见性修饰符的方法清单
+### 5.ReplaceProtectedMethodSign
+protected被替换为public的方法清单
+### 6.RemovePrivateSignField
+被移除private可见性修饰符的变量清单
+### 7.RemoveFinalSignField
+被移除final可见性修饰符的变量清单
+### 8.ReplaceProtectedSignField
+protected被替换为public的变量清单
 
 ## Feature:
 ### 1.移除所有非静态方法的private可见性修饰
