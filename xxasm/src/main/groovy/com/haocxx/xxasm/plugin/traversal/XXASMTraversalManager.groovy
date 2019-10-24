@@ -8,6 +8,7 @@ enum XXASMTraversalManager {
     _instance
 
     HashSet<MethodInfo> sPrivateMethodSet = new HashSet<>()
+    HashSet<FieldInfo> sPrivateFieldSet = new HashSet<>()
     HashMap<MethodInfo, MethodInfo> sPrivateAccessMethodMap = new HashMap<>()
     HashMap<MethodInfo, FieldInfo> sPrivateAccessFieldMap = new HashMap<>()
 

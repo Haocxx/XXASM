@@ -8,8 +8,9 @@ import java.lang.reflect.Method;
 
 public class MainActivity extends BaseActivity {
 
-     long a = System.currentTimeMillis();
-    protected int b = 1;
+    private BaseActivity a = new BaseActivity();
+    protected BaseActivity b = new BaseActivity();
+    private int asd = 1;
 
 //    private static Method mSortChildDrawingOrderMethod = null;
 
@@ -17,11 +18,13 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        b = a;
+        b = get();
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                a = b;
-//                test(a, 1);
+                b = a;
+                test(asd, 1);
 //                test2(a, 1);
 
             }
@@ -39,13 +42,16 @@ public class MainActivity extends BaseActivity {
 //        }
     }
 
-//    private static void test(int a, int b) {
-//
-//
-//    }
+    private static void test(int a, int b) {
+
+
+    }
 //
 //    private void test2(int a, int b) {
 //
 //    }
 
+    public static BaseActivity get() {
+        return new BaseActivity();
+    }
 }

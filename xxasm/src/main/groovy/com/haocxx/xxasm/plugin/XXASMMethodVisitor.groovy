@@ -35,6 +35,22 @@ class XXASMMethodVisitor extends MethodVisitor {
                 super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, value.className, value.methodName, desc, itf)
                 return
             }
+
+            XXASMTraversalManager.FieldInfo fieldInfo = XXASMTraversalManager._instance.sPrivateAccessFieldMap.get(key)
+            if (fieldInfo != null && XXASMTraversalManager._instance.sPrivateFieldSet.contains(fieldInfo)) {
+                //FIXME:
+                //visitVarInsn(Opcodes.ALOAD, 0)
+                int breakIndex = 0
+                for (int i = 0; i < desc.length(); i++) {
+                    if (desc[i] == ')') {
+                        breakIndex = i
+                        break
+                    }
+                }
+                desc = desc.substring(breakIndex + 1, desc.length())
+                visitFieldInsn(Opcodes.GETFIELD, fieldInfo.className, fieldInfo.fieldName, desc)
+                return
+            }
         }
         if (XXASMTraversalManager._instance.sPrivateMethodSet.contains(new XXASMTraversalManager.MethodInfo(owner, name))) {
             if (opcode == Opcodes.INVOKESPECIAL) {
@@ -42,18 +58,5 @@ class XXASMMethodVisitor extends MethodVisitor {
             }
         }
         super.visitMethodInsn(opcode, owner, name, desc, itf)
-    }
-
-    @Override
-    void visitFieldInsn(int opcode, String owner, String name, String desc) {
-        if (opcode == Opcodes.GETFIELD && name.startsWith("access\$")) {
-            XXASMTraversalManager.MethodInfo key = new XXASMTraversalManager.MethodInfo(owner, name)
-            XXASMTraversalManager.FieldInfo value = XXASMTraversalManager._instance.sPrivateAccessFieldMap.get(key)
-//            if (value != null) {
-//                super.visitFieldInsn(opcode, value.className, value.fieldName, desc)
-//                return
-//            }
-        }
-        super.visitFieldInsn(opcode, owner, name, desc)
     }
 }
