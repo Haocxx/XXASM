@@ -31,4 +31,6 @@ dependencies {
 
 xxasm {
     ignoreListPath = "$rootDir/property/xxasm/ignore.txt"
+    enableRemoveNonStaticPrivateMethodSign = true
+    enableRemoveNonStaticPrivateFieldSign = true
 }
