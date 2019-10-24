@@ -1,5 +1,30 @@
 # XXASM
-### 移除字节码中的冗余字段
+### 移除字节码中冗余字段的Android插件
+可通过gradle插件形式引入，通过Transform时期对字节码的处理，删除工程Java文件JavaCompile编译出来甚至引入的jar/aar包中的字节码文件冗余字段，达到缩小APK包体积的目的。
+
+## Configuration:
+在app的build.gradle中，XXASM支持如下配置：
+```gradle
+xxasm {
+ignoreListPath = "$rootDir/property/xxasm/ignore.txt"
+enableRemoveNonStaticPrivateMethodSign = true
+enableRemoveNonStaticPrivateFieldSign = true
+}
+```
+### ignoreListPath:
+配置不经过XXASM处理的类名清单列表文件。类似混淆的proguard文件，该项指定的文件中的类将被XXASM忽略不做处理。
+#### Example:
+```txt
+**webview** //所有包含webview字段的类不做处理
+**.R //所有以".R"为结尾的类不做处理
+com.haocxx.** //所有以"com.haocxx."开头的类不做处理
+com.iqiyi.Example //类“com.iqiyi.Example”不做处理
+```
+### enableRemoveNonStaticPrivateMethodSign:
+是否启用处理非静态private方法（Feature 1）的开关。true为开，false为关。默认为开。
+### enableRemoveNonStaticPrivateFieldSign:
+是否启用处理非静态private全局变量（Feature 2）的开关。true为开，false为关。默认为开。
+
 
 ## Feature:
 ### 1.移除所有非静态方法的private可见性修饰
@@ -150,26 +175,3 @@ return-object v0
 .end method
 
 ```
-
-## Configuration:
-在app的build.gradle中，XXASM支持如下配置：
-```gradle
-xxasm {
-    ignoreListPath = "$rootDir/property/xxasm/ignore.txt"
-    enableRemoveNonStaticPrivateMethodSign = true
-    enableRemoveNonStaticPrivateFieldSign = true
-}
-```
-### ignoreListPath:
-配置不经过XXASM处理的类名清单列表文件。类似混淆的proguard文件，该项指定的文件中的类将被XXASM忽略不做处理。
-#### Example:
-```txt
-**webview** //所有包含webview字段的类不做处理
-**.R //所有以".R"为结尾的类不做处理
-com.haocxx.** //所有以"com.haocxx."开头的类不做处理
-com.iqiyi.Example //类“com.iqiyi.Example”不做处理
-```
-### enableRemoveNonStaticPrivateMethodSign:
-是否启用处理非静态private方法（Feature 1）的开关。true为开，false为关。默认为开。
-### enableRemoveNonStaticPrivateFieldSign:
-是否启用处理非静态private全局变量（Feature 2）的开关。true为开，false为关。默认为开。
