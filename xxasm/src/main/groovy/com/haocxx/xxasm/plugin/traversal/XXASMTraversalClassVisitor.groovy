@@ -36,7 +36,7 @@ class XXASMTraversalClassVisitor extends ClassVisitor {
             }
         }
         if ((Opcodes.ACC_SYNTHETIC & access) == Opcodes.ACC_SYNTHETIC && name.startsWith("access\$")) {
-            result = result == null ? null : new XXASMTraversalMethodVisitor(mClassName, name, result)
+            result = result == null ? null : new XXASMTraversalMethodVisitor(mClassName, name, desc, result)
         }
         return result
     }
