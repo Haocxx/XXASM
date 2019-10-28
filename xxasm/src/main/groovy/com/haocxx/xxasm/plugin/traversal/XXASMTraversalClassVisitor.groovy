@@ -32,7 +32,7 @@ class XXASMTraversalClassVisitor extends ClassVisitor {
         result = super.visitMethod(access, name, desc, signature, exceptions)
         if (BuildPropertyManager.getInstance().isRemoveNonStaticPrivateMethodSignEnable()) {
             if (access == Opcodes.ACC_PRIVATE && "<init>" != name && !name.startsWith("lambda\$")) {
-                XXASMTraversalManager._instance.sPrivateMethodSet.add(new XXASMTraversalManager.MethodInfo(mClassName, name))
+                XXASMTraversalManager._instance.sPrivateMethodSet.add(new XXASMTraversalManager.MethodInfo(mClassName, name, desc))
             }
         }
         if ((Opcodes.ACC_SYNTHETIC & access) == Opcodes.ACC_SYNTHETIC && name.startsWith("access\$")) {

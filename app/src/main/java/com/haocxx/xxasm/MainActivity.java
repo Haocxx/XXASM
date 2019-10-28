@@ -18,6 +18,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sortChildDrawingOrder();
         b = a;
         b = get();
         Runnable runnable = new Runnable() {
@@ -42,7 +43,7 @@ public class MainActivity extends BaseActivity {
 //        }
     }
 
-    private static void test(int a, int b) {
+    private void test(int a, int b) {
 
 
     }
@@ -53,5 +54,11 @@ public class MainActivity extends BaseActivity {
 
     public static BaseActivity get() {
         return new BaseActivity();
+    }
+
+    @Override
+    public void sortChildDrawingOrder() {
+        super.sortChildDrawingOrder();
+        Log.d("Fuck", "asdasdasd");
     }
 }

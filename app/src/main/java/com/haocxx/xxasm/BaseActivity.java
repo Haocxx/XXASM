@@ -9,7 +9,12 @@ import androidx.appcompat.app.AppCompatActivity;
  * on 2019-10-22
  */
 public class BaseActivity extends AppCompatActivity {
-    private void sortChildDrawingOrder() {
+
+    public void sortChildDrawingOrder() {
+        Log.d("Fuck", "asdasdasd");
+    }
+
+    private void sortChildDrawingOrder(int a) {
         Log.d("Fuck", "asdasdasd");
     }
 }

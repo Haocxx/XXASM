@@ -17,7 +17,7 @@ class XXASMMethodVisitor extends MethodVisitor {
     @Override
     void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
         if (opcode == Opcodes.INVOKESTATIC && name.startsWith("access\$")) {
-            XXASMTraversalManager.MethodInfo key = new XXASMTraversalManager.MethodInfo(owner, name)
+            XXASMTraversalManager.MethodInfo key = new XXASMTraversalManager.MethodInfo(owner, name, desc)
             XXASMTraversalManager.MethodInfo value = XXASMTraversalManager._instance.sPrivateAccessMethodMap.get(key)
             if (value != null && XXASMTraversalManager._instance.sPrivateMethodSet.contains(value)) {
                 int blockerPos = 0
@@ -52,7 +52,7 @@ class XXASMMethodVisitor extends MethodVisitor {
                 return
             }
         }
-        if (XXASMTraversalManager._instance.sPrivateMethodSet.contains(new XXASMTraversalManager.MethodInfo(owner, name))) {
+        if (XXASMTraversalManager._instance.sPrivateMethodSet.contains(new XXASMTraversalManager.MethodInfo(owner, name, desc))) {
             if (opcode == Opcodes.INVOKESPECIAL) {
                 opcode = Opcodes.INVOKEVIRTUAL
             }

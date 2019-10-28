@@ -20,8 +20,8 @@ class XXASMTraversalMethodVisitor extends MethodVisitor {
     @Override
     void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
         if (opcode == Opcodes.INVOKESPECIAL) {
-            XXASMTraversalManager.MethodInfo pre = new XXASMTraversalManager.MethodInfo(className, methodName)
-            XXASMTraversalManager.MethodInfo after = new XXASMTraversalManager.MethodInfo(owner, name)
+            XXASMTraversalManager.MethodInfo pre = new XXASMTraversalManager.MethodInfo(className, methodName, desc)
+            XXASMTraversalManager.MethodInfo after = new XXASMTraversalManager.MethodInfo(owner, name, desc)
             XXASMTraversalManager._instance.sPrivateAccessMethodMap.put(pre, after)
         }
         super.visitMethodInsn(opcode, owner, name, desc, itf)
@@ -30,7 +30,7 @@ class XXASMTraversalMethodVisitor extends MethodVisitor {
     @Override
     void visitFieldInsn(int opcode, String owner, String name, String desc) {
         if (opcode == Opcodes.GETFIELD) {
-            XXASMTraversalManager.MethodInfo pre = new XXASMTraversalManager.MethodInfo(className, methodName)
+            XXASMTraversalManager.MethodInfo pre = new XXASMTraversalManager.MethodInfo(className, methodName, desc)
             XXASMTraversalManager.FieldInfo after = new XXASMTraversalManager.FieldInfo(owner, name)
             XXASMTraversalManager._instance.sPrivateAccessFieldMap.put(pre, after)
         }

@@ -58,20 +58,20 @@ class XXASMClassVisitor extends ClassVisitor {
             access += Opcodes.ACC_PUBLIC
         }
         if ((Opcodes.ACC_PRIVATE & access) == Opcodes.ACC_PRIVATE) {
-            if (XXASMTraversalManager._instance.sPrivateMethodSet.contains(new XXASMTraversalManager.MethodInfo(mClassName, name))) {
+            if (XXASMTraversalManager._instance.sPrivateMethodSet.contains(new XXASMTraversalManager.MethodInfo(mClassName, name, desc))) {
                 LogPrintManager.getInstance().removePrivateMethodSignLogPrinter.printLog(mClassName.replace('/', '.') + "::" + name)
                 access -= Opcodes.ACC_PRIVATE
             }
         }
         if ((Opcodes.ACC_SYNTHETIC & access) == Opcodes.ACC_SYNTHETIC) {
-            XXASMTraversalManager.MethodInfo methodInfo = XXASMTraversalManager._instance.sPrivateAccessMethodMap.get(new XXASMTraversalManager.MethodInfo(mClassName, name))
+            XXASMTraversalManager.MethodInfo methodInfo = XXASMTraversalManager._instance.sPrivateAccessMethodMap.get(new XXASMTraversalManager.MethodInfo(mClassName, name, desc))
             if (methodInfo != null && XXASMTraversalManager._instance.sPrivateMethodSet.contains(methodInfo)) {
                 LogPrintManager.getInstance().removedSyntheticAccessMethodLogPrinter.printLog(mClassName.replace('/', '.') + "::" + name)
                 return null
             }
         }
         if ((Opcodes.ACC_SYNTHETIC & access) == Opcodes.ACC_SYNTHETIC) {
-            XXASMTraversalManager.FieldInfo fieldInfo = XXASMTraversalManager._instance.sPrivateAccessFieldMap.get(new XXASMTraversalManager.MethodInfo(mClassName, name))
+            XXASMTraversalManager.FieldInfo fieldInfo = XXASMTraversalManager._instance.sPrivateAccessFieldMap.get(new XXASMTraversalManager.MethodInfo(mClassName, name, desc))
             if (fieldInfo != null && XXASMTraversalManager._instance.sPrivateFieldSet.contains(fieldInfo)) {
                 LogPrintManager.getInstance().removedSyntheticAccessFieldLogPrinter.printLog(mClassName.replace('/', '.') + "::" + name)
                 return null

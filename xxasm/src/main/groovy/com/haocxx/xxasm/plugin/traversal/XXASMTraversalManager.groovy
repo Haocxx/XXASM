@@ -15,10 +15,12 @@ enum XXASMTraversalManager {
     static class MethodInfo {
         String className
         String methodName
+        String desc
 
-        MethodInfo(String className, String methodName) {
+        MethodInfo(String className, String methodName, String desc) {
             this.className = className
             this.methodName = methodName
+            this.desc = desc
         }
 
         @Override
@@ -29,17 +31,17 @@ enum XXASMTraversalManager {
             if (!o instanceof MethodInfo) {
                 return false
             }
-            return (className == ((MethodInfo)o).className) && (methodName == ((MethodInfo)o).methodName)
+            return (className == ((MethodInfo)o).className) && (methodName == ((MethodInfo)o).methodName && (desc == ((MethodInfo)o).desc))
         }
 
         @Override
         String toString() {
-            return "MethodInfo: " + className + " " + methodName
+            return "MethodInfo: " + className + " " + methodName + " " + desc
         }
 
         @Override
         int hashCode() {
-            return className.hashCode() + methodName.hashCode()
+            return className.hashCode() + methodName.hashCode() + desc.hashCode()
         }
     }
 
