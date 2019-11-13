@@ -3,6 +3,7 @@ package com.haocxx.xxasm;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 
 import java.lang.reflect.Method;
 
@@ -21,16 +22,12 @@ public class MainActivity extends BaseActivity {
         sortChildDrawingOrder();
         b = a;
         b = get();
-        Runnable runnable = new Runnable() {
+        findViewById(R.id.button_hello).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                b = a;
-                test(asd, 1);
-//                test2(a, 1);
-
+            public void onClick(View view) {
+                asd++;
             }
-        };
-        new Handler().post(runnable);
+        });
 //
 //        try {
 //            if (mSortChildDrawingOrderMethod == null) {
