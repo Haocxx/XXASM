@@ -38,7 +38,12 @@ class XXASMTraversalClassVisitor extends ClassVisitor {
         boolean isPrivateSyntheticAccessMethod = false
         if (name.startsWith("access\$")) {
             String nameIntString = name.substring(7, name.length())
-            int nameInt = Integer.parseInt(nameIntString)
+            int nameInt
+            try {
+                nameInt = Integer.parseInt(nameIntString)
+            } catch (Throwable t) {
+                nameInt = -1
+            }
             if (nameInt % 100 == 0) {
                 isPrivateSyntheticAccessMethod = true
             }
