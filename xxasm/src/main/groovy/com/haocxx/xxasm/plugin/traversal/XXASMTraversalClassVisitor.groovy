@@ -35,7 +35,15 @@ class XXASMTraversalClassVisitor extends ClassVisitor {
                 XXASMTraversalManager._instance.sPrivateMethodSet.add(new XXASMTraversalManager.MethodInfo(mClassName, name, desc))
             }
         }
-        if ((Opcodes.ACC_SYNTHETIC & access) == Opcodes.ACC_SYNTHETIC && name.startsWith("access\$")) {
+        boolean isPrivateSyntheticAccessMethod = false
+        if (name.startsWith("access\$")) {
+            String nameIntString = name.substring(7, name.length())
+            int nameInt = Integer.parseInt(nameIntString)
+            if (nameInt % 100 == 0) {
+                isPrivateSyntheticAccessMethod = true
+            }
+        }
+        if ((Opcodes.ACC_SYNTHETIC & access) == Opcodes.ACC_SYNTHETIC && isPrivateSyntheticAccessMethod) {
             result = result == null ? null : new XXASMTraversalMethodVisitor(mClassName, name, desc, result)
         }
         return result
