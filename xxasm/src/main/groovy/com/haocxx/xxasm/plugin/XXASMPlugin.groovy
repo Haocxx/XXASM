@@ -13,6 +13,8 @@ import org.gradle.api.Project
  * on 2019-09-12
  */
 class XXASMPlugin implements Plugin<Project> {
+
+    @Override
     void apply(Project project) {
         println("============ do XXASMPlugin apply ============")
         project.extensions.create('xxasm', XXASMConfig)
@@ -22,7 +24,7 @@ class XXASMPlugin implements Plugin<Project> {
             IgnoreManager.init()
         }
 
-        //registerTransform
+        // registerTransform
         def android = project.extensions.getByType(AppExtension)
         android.registerTransform(new XXASMTraversalTransform())
         android.registerTransform(new XXASMTransform())
